@@ -242,9 +242,9 @@ loginForm.addEventListener("submit", (e) => {
             username
         );
 
-        alert("Login Successful!");
-
-        window.location.href = "index.html";
+        const urlParams = new URLSearchParams(window.location.search);
+const fallbackDestination = urlParams.get('redirect') || 'index.html';
+window.location.href = fallbackDestination;
 
     }
 
