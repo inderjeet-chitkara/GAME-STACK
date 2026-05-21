@@ -45,24 +45,15 @@
     <section class="featured">
 
         <h2 class="cart-title">🛒 Your Gaming Cart</h2>
+        <button id="clear-cart-btn" class="clear-btn" style="margin-bottom: 15px;">🗑️ Clear Entire Cart</button>
 
         <div id="cart-items"></div>
 
         <div class="total-box">
-            <h2 id="total"></h2>
-            <a href="payment.html">
-
-    <button class="checkout-btn">
-
-        Proceed to Pay
-
-    </button>
-
-</a>
-             <p class="cart-note">
-        Secure checkout powered by Game Stack
-    </p>
-        </div>
+    <h2 id="total"></h2>
+    <button class="checkout-btn" id="checkout-btn">Proceed to Pay</button>
+    <p class="cart-note">Secure checkout powered by Game Stack</p>
+</div>
 
     </section>
 
@@ -73,150 +64,146 @@
 </footer>
 
 <script>
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 let container = document.getElementById("cart-items");
 let totalDisplay = document.getElementById("total");
 
 function renderCart() {
-
     container.innerHTML = "";
-
     let total = 0;
 
-    // EMPTY CART
+    // EMPTY CART STATE
     if (cart.length === 0) {
-
-        // HIDE TOTAL BOX
         document.querySelector(".total-box").style.display = "none";
+        document.getElementById("clear-cart-btn").style.display = "none"; // 👈 ADD THIS LINE
 
         container.innerHTML = `
             <div class="empty-cart">
-
-                <img src="images/empty-cart.png"
-                alt="Empty Cart">
-
+                <img src="images/empty-cart.png" alt="Empty Cart">
                 <h2>Your cart is empty</h2>
-
                 <p>Add some awesome games!</p>
-
             </div>
         `;
-
-        totalDisplay.innerText = "";
-
+        totalDisplay.innerHTML = "";
         return;
     }
+
+    // ACTIVE CART STATE
+    document.querySelector(".total-box").style.display = "block";
+    document.getElementById("clear-cart-btn").style.display = "inline-block"; // 👈 ADD THIS LINE
+    
 
     // SHOW TOTAL BOX
     document.querySelector(".total-box").style.display = "block";
 
     // LOOP THROUGH CART
     cart.forEach((item, index) => {
-
-        let priceNumber =
-        parseInt(item.price.replace("₹", ""));
-
+        let priceNumber = parseInt(item.price.replace("₹", ""));
         total += priceNumber;
 
-        let div =
-        document.createElement("div");
-
+        let div = document.createElement("div");
         div.classList.add("cart-card");
 
         div.innerHTML = `
-
-            <img src="${item.image}"
-            alt="${item.title}">
-
+            <img src="${item.image}" alt="${item.title}">
             <div class="cart-info">
-
                 <h3>${item.title}</h3>
-
                 <p>${item.price}</p>
-
             </div>
-
             <button onclick="removeItem(${index})">
-
                 Remove
-
             </button>
-
         `;
-
         container.appendChild(div);
-
     });
 
-    // SHOW TOTAL
-    totalDisplay.innerText = "Total: ₹" + total;
+    // --- DISCOUNT LOGIC ---
+    let discountPercent = 0;
+    
+    if (total > 10000) {
+        discountPercent = 15;
+    } else if (total > 5000) {
+        discountPercent = 10;
+    }
+
+    if (discountPercent > 0) {
+        let discountAmount = (total * discountPercent) / 100;
+        let finalTotal = total - discountAmount;
+
+        // Displays original total (crossed out), the tier banner, and final total
+        totalDisplay.innerHTML = `
+            <span style="font-size: 0.6em; text-decoration: line-through; color: #888;">Original: ₹${total}</span>
+            <div style="font-size: 0.5em; color: #00ffcc; margin: 5px 0;">🎉 ${discountPercent}% Gaming Discount Applied!</div>
+            Total: ₹${Math.round(finalTotal)}
+        `;
+    } else {
+        // Normal total display if no tiers are reached
+        totalDisplay.innerText = "Total: ₹" + total;
+    }
 }
 
 function removeItem(index) {
-
     cart.splice(index, 1);
-
     localStorage.setItem("cart", JSON.stringify(cart));
-
     renderCart();
 }
 
 renderCart();
-const user =
-localStorage.getItem("loggedInUser");
 
-// ELEMENTS
-const userInfo =
-document.getElementById("user-info");
+// USER & AUTH CONTEXT
+const user = localStorage.getItem("loggedInUser");
+const userInfo = document.getElementById("user-info");
+const loginLink = document.getElementById("login-link");
+const logoutLink = document.getElementById("logout-link");
 
-const loginLink =
-document.getElementById("login-link");
-
-const logoutLink =
-document.getElementById("logout-link");
-
-// IF USER LOGGED IN
 if(user){
-
-    // SHOW USERNAME
-    userInfo.innerHTML = `
-        👤 ${user}
-    `;
-
-    // HIDE LOGIN
+    userInfo.innerHTML = `👤 ${user}`;
     loginLink.style.display = "none";
-
-    // SHOW LOGOUT
     logoutLink.style.display = "block";
 }
 
 // LOGOUT
-document
-.getElementById("logout-btn")
-
-.addEventListener("click", (e) => {
-
+document.getElementById("logout-btn").addEventListener("click", (e) => {
     e.preventDefault();
-
-    // CONFIRM LOGOUT
-    let confirmLogout =
-    confirm("Do you want to logout?");
-
-    // IF USER CLICKS OK
+    let confirmLogout = confirm("Do you want to logout?");
     if(confirmLogout){
-
-        // REMOVE SESSION
         localStorage.removeItem("loggedInUser");
-
-        // REDIRECT
         window.location.href = "login.html";
     }
+});
+// CHECKOUT GATEKEEPER LOGIC
+document.getElementById("checkout-btn").addEventListener("click", () => {
+    // Check if user session data exists in localStorage
+    const loggedInUser = localStorage.getItem("loggedInUser");
 
+    if (!loggedInUser) {
+        // Stop user, alert them, and redirect to the login gate
+        alert("🎮 Please log in or register an account before making a purchase!");
+       window.location.href = "login.html?redirect=cart.html";
+    } else {
+        // User is authenticated, proceed safely to payment screen
+        window.location.href = "payment.html";
+    }
 });
 
+document.getElementById("clear-cart-btn").addEventListener("click", () => {
+    if(confirm("Are you sure you want to remove all games from your cart?")) {
+        // 1. Clear browser storage
+        localStorage.removeItem("cart");
+        
+        // 2. CRITICAL: Clear the local array memory so renderCart() knows it's empty
+        cart = []; 
+        
+        // 3. Re-render the empty state UI instantly
+        renderCart(); 
+        
+        // 4. Safely update your badge if the function exists
+        if (typeof updateCartBadge === "function") {
+            updateCartBadge(); 
+        }
+    }
+});
 </script>
-
 </body>
 </html>
