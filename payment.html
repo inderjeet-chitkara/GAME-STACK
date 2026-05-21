@@ -2,326 +2,177 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - Game Stack</title>
-
-    <link rel="stylesheet"
-    href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
-
 <header>
-
     <div class="logo">
-
         <h1>Game Stack</h1>
-
     </div>
-
     <nav>
-
         <ul>
-
             <li><a href="index.html">Home</a></li>
-
             <li><a href="store.html">Store</a></li>
-
             <li><a href="cart.html">Cart</a></li>
-
         </ul>
-
     </nav>
-
 </header>
 
-<!-- PAYMENT SECTION -->
-
 <main>
-
 <section class="payment-section">
-
     <div class="payment-container">
-
         <h2>💳 Secure Payment</h2>
-
-        <p class="payment-text">
-
-            Complete your purchase safely
-
-        </p>
-
-        <!-- PAYMENT FORM -->
+        <p class="payment-text">Complete your purchase safely</p>
 
         <form id="payment-form">
 
-    <!-- PAYMENT METHODS -->
+            <div class="payment-methods">
+                <label>
+                    <input type="radio" name="payment-method" value="card" checked> 💳 Card
+                </label>
+                <label>
+                    <input type="radio" name="payment-method" value="upi"> 📱 UPI
+                </label>
+                <label>
+                    <input type="radio" name="payment-method" value="netbanking"> 🏦 Net Banking
+                </label>
+                <label>
+                    <input type="radio" name="payment-method" value="wallet"> 👛 Wallet
+                </label>
+            </div>
 
-    <div class="payment-methods">
+            <div id="card-section">
+                <input type="text" id="card-name" placeholder="Card Holder Name" required>
+                <input type="text" id="card-number" placeholder="Card Number" maxlength="16" required>
+                
+                <div class="payment-row" style="display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 15px !important; width: 100% !important; margin-bottom: 15px !important;">
+                    <input type="text" id="expiry" placeholder="MM/YY" style="width: 100% !important; margin: 0 !important;" required>
+                    <input type="password" id="cvv" placeholder="CVV" maxlength="3" style="width: 100% !important; margin: 0 !important;" required>
+                </div>
+            </div>
 
-        <label>
+            <div id="upi-section" style="display:none;">
+                <input type="text" id="upi-id" placeholder="Enter UPI ID">
+            </div>
 
-            <input
-            type="radio"
-            name="payment-method"
-            value="card"
-            checked>
+            <div id="netbanking-section" style="display:none;">
+                <select id="bank-select">
+                    <option value="">Select Bank</option>
+                    <option value="SBI">SBI</option>
+                    <option value="HDFC">HDFC</option>
+                    <option value="ICICI">ICICI</option>
+                    <option value="Axis Bank">Axis Bank</option>
+                </select>
+            </div>
 
-            💳 Card
+            <div id="wallet-section" style="display:none;">
+                <select id="wallet-select">
+                    <option value="">Select Wallet</option>
+                    <option value="Paytm">Paytm</option>
+                    <option value="PhonePe">PhonePe</option>
+                    <option value="Amazon Pay">Amazon Pay</option>
+                </select>
+            </div>
 
-        </label>
-
-        <label>
-
-            <input
-            type="radio"
-            name="payment-method"
-            value="upi">
-
-            📱 UPI
-
-        </label>
-
-        <label>
-
-            <input
-            type="radio"
-            name="payment-method"
-            value="netbanking">
-
-            🏦 Net Banking
-
-        </label>
-
-        <label>
-
-            <input
-            type="radio"
-            name="payment-method"
-            value="wallet">
-
-            👛 Wallet
-
-        </label>
-
+            <button type="submit">Pay Now</button>
+        </form>
     </div>
-
-    <!-- CARD PAYMENT -->
-
-    <div id="card-section">
-
-        <input
-        type="text"
-        id="card-name"
-        placeholder="Card Holder Name"
-        >
-
-        <input
-        type="text"
-        id="card-number"
-        placeholder="Card Number"
-        maxlength="16">
-
-        <div class="payment-row">
-
-            <input
-            type="text"
-            id="expiry"
-            placeholder="MM/YY">
-
-            <input
-            type="password"
-            id="cvv"
-            placeholder="CVV"
-            maxlength="3">
-
-        </div>
-
-    </div>
-
-    <!-- UPI -->
-
-    <div id="upi-section" style="display:none;">
-
-        <input
-        type="text"
-        id="upi-id"
-        placeholder="Enter UPI ID">
-
-    </div>
-
-    <!-- NET BANKING -->
-
-    <div id="netbanking-section"
-    style="display:none;">
-
-        <select id="bank-select">
-
-            <option value="">
-                Select Bank
-            </option>
-
-            <option>
-                SBI
-            </option>
-
-            <option>
-                HDFC
-            </option>
-
-            <option>
-                ICICI
-            </option>
-
-            <option>
-                Axis Bank
-            </option>
-
-        </select>
-
-    </div>
-
-    <!-- WALLET -->
-
-    <div id="wallet-section"
-    style="display:none;">
-
-        <select id="wallet-select">
-
-            <option value="">
-                Select Wallet
-            </option>
-
-            <option>
-                Paytm
-            </option>
-
-            <option>
-                PhonePe
-            </option>
-
-            <option>
-                Amazon Pay
-            </option>
-
-        </select>
-
-    </div>
-
-    <button type="submit">
-
-        Pay Now
-
-    </button>
-
-</form>
-
-    </div>
-
 </section>
-
 </main>
 
-<!-- FOOTER -->
-
 <footer>
-
-    <p>
-
-        &copy; 2026 Game Stack.
-        All rights reserved.
-
-    </p>
-
+    <p>&copy; 2026 Game Stack. All rights reserved.</p>
 </footer>
 
 <script>
+// SECURITY CHECK: Kick anonymous users back to login
+if (!localStorage.getItem("loggedInUser")) {
+    alert("⛔ Access Denied. Please log in first.");
+    window.location.href = "login.html";
+}
 
-// PAYMENT METHODS
-const methods =
-document.querySelectorAll(
-'input[name="payment-method"]'
-);
+// ELEMENT SELECTORS
+const methods = document.querySelectorAll('input[name="payment-method"]');
+const cardSection = document.getElementById("card-section");
+const upiSection = document.getElementById("upi-section");
+const netbankingSection = document.getElementById("netbanking-section");
+const walletSection = document.getElementById("wallet-section");
 
-// SECTIONS
-const cardSection =
-document.getElementById("card-section");
-
-const upiSection =
-document.getElementById("upi-section");
-
-const netbankingSection =
-document.getElementById("netbanking-section");
-
-const walletSection =
-document.getElementById("wallet-section");
-
-// CHANGE METHOD
+// CHANGE METHOD & DYNAMICALLY SET REQUIRED FIELDS
 methods.forEach(method => {
-
     method.addEventListener("change", () => {
-
-        // HIDE ALL
+        // HIDE ALL SECTIONS
         cardSection.style.display = "none";
-
         upiSection.style.display = "none";
-
         netbankingSection.style.display = "none";
-
         walletSection.style.display = "none";
 
-        // SHOW SELECTED
+        // RESET ALL 'REQUIRED' ATTRIBUTES FIRST
+        document.getElementById("card-name").required = false;
+        document.getElementById("card-number").required = false;
+        document.getElementById("expiry").required = false;
+        document.getElementById("cvv").required = false;
+        document.getElementById("upi-id").required = false;
+        document.getElementById("bank-select").required = false;
+        document.getElementById("wallet-select").required = false;
+
+        // SHOW SELECTED SECTION AND MAKE ITS FIELDS REQUIRED
         if(method.value === "card"){
-
             cardSection.style.display = "block";
+            document.getElementById("card-name").required = true;
+            document.getElementById("card-number").required = true;
+            document.getElementById("expiry").required = true;
+            document.getElementById("cvv").required = true;
         }
-
         else if(method.value === "upi"){
-
             upiSection.style.display = "block";
+            document.getElementById("upi-id").required = true;
         }
-
         else if(method.value === "netbanking"){
-
             netbankingSection.style.display = "block";
+            document.getElementById("bank-select").required = true;
         }
-
         else if(method.value === "wallet"){
-
             walletSection.style.display = "block";
+            document.getElementById("wallet-select").required = true;
         }
-
     });
-
 });
 
-// PAYMENT FORM
-document
-
-.getElementById("payment-form")
-
-.addEventListener("submit", (e) => {
-
+// PAYMENT FORM VALIDATION & SUBMIT
+document.getElementById("payment-form").addEventListener("submit", (e) => {
     e.preventDefault();
 
-    alert("🎉 Payment Successful!");
+    // Capture active payment mode choice
+    const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
 
-    // CLEAR CART
-    localStorage.removeItem("cart");
+    // Check dropdown options if browser validation misses them
+    if (selectedMethod === "netbanking" && !document.getElementById("bank-select").value) {
+        alert("Please select a bank to proceed.");
+        return;
+    }
+    if (selectedMethod === "wallet" && !document.getElementById("wallet-select").value) {
+        alert("Please select a digital wallet to proceed.");
+        return;
+    }
 
-    // REDIRECT
-    window.location.href = "success.html";
+    // Simulate Payment Gateway API processing delay
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "⏳ Verifying Details...";
+    submitBtn.style.opacity = "0.6";
 
+    setTimeout(() => {
+        alert("🔒 Payment Successful! Your game keys have been generated.");
+        localStorage.removeItem("cart");
+        window.location.href = "success.html";
+    }, 2000); // 2 second delay
 });
-
 </script>
 
 </body>
