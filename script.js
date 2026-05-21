@@ -48,3 +48,18 @@ localStorage.setItem(
 alert(title + " added to cart!");
     });
 });
+
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartLinks = document.querySelectorAll('nav a[href="cart.html"]');
+    
+    cartLinks.forEach(link => {
+        if (cart.length > 0) {
+            link.innerHTML = `🛒 Cart <span class="cart-badge">${cart.length}</span>`;
+        } else {
+            link.innerHTML = `🛒 Cart`;
+        }
+    });
+}
+// Run it immediately on page load
+document.addEventListener("DOMContentLoaded", updateCartBadge);
