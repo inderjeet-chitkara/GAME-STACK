@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Stack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>Game Stack</h1>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="store.html">Store</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                
+                <!-- LOGIN BUTTON -->
+                <li id="login-link">
+                    <a href="login.html">Login</a>
+                </li>
+
+                <!-- USERNAME -->
+                <li id="user-info"></li>
+
+                <!-- LOGOUT BUTTON -->
+                <li id="logout-link" style="display:none;">
+                    <a href="#" id="logout-btn">Logout</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Welcome to Game Stack</h2>
+        <p>Discover and buy your favorite games</p>
+        <a href="store.html" class="btn">Browse Games</a>
+    </section>
+
+    <!-- Featured Games -->
+    <section class="featured">
+        <h2>Featured Games</h2>
+
+        <div class="game-container">
+
+            <!-- Game Card 1 -->
+            <div class="game-card">
+                <img src="images/game1.jpg" alt="Game 1">
+                <h3>Black Myth: Wukong</h3>
+                <p>₹2999</p>
+                <button>Add to Cart</button>
+                <div class="game-description">
+
+        An action RPG inspired by
+        Journey to the West with
+        intense combat and stunning
+        visuals.
+
+    </div>
+            </div>
+
+            <!-- Game Card 2 -->
+            <div class="game-card">
+                <img src="images/game2.jpg" alt="Game 2">
+                <h3>Battle Arena</h3>
+                <p>₹799</p>
+                <button>Add to Cart</button>
+                <div class="game-description">
+
+    Multiplayer fantasy battle game
+    with strategic combat and
+    fast-paced action.
+
+</div>
+            </div>
+
+            <!-- Game Card 3 -->
+            <div class="game-card">
+                <img src="images/game3.jpg" alt="Game 3">
+                <h3>Elden Ring</h3>
+                <p>₹1999</p>
+                <button>Add to Cart</button>
+                <div class="game-description">
+
+    Explore a massive dark fantasy
+    world created by FromSoftware
+    and George R. R. Martin.
+
+</div>
+            </div>
+
+        </div>
+    </section>
+</main>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Game Stack. All rights reserved.</p>
+    </footer>
+<script>
+
+// GET USER
+const user =
+localStorage.getItem("loggedInUser");
+
+// ELEMENTS
+const userInfo =
+document.getElementById("user-info");
+
+const loginLink =
+document.getElementById("login-link");
+
+const logoutLink =
+document.getElementById("logout-link");
+
+// IF USER LOGGED IN
+if(user){
+
+    // SHOW USERNAME
+    userInfo.innerHTML = `
+        👤 ${user}
+    `;
+
+    // HIDE LOGIN
+    loginLink.style.display = "none";
+
+    // SHOW LOGOUT
+    logoutLink.style.display = "block";
+}
+
+// LOGOUT
+document
+.getElementById("logout-btn")
+
+.addEventListener("click", (e) => {
+
+    e.preventDefault();
+
+    // CONFIRM LOGOUT
+    let confirmLogout =
+    confirm("Do you want to logout?");
+
+    // IF USER CLICKS OK
+    if(confirmLogout){
+
+        // REMOVE SESSION
+        localStorage.removeItem("loggedInUser");
+
+        // REDIRECT
+        window.location.href = "login.html";
+    }
+
+});
+
+</script>
+    <script src="script.js"></script>
+</body>
+</html>

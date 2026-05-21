@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Game Stack</title>
+
+    <link rel="stylesheet"
+    href="style.css">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="logo">
+
+        <h1>Game Stack</h1>
+
+    </div>
+
+    <nav>
+
+        <ul>
+
+            <li><a href="index.html">Home</a></li>
+
+            <li><a href="store.html">Store</a></li>
+
+            <li><a href="cart.html">Cart</a></li>
+
+        </ul>
+
+    </nav>
+
+</header>
+
+<!-- PAYMENT SECTION -->
+
+<main>
+
+<section class="payment-section">
+
+    <div class="payment-container">
+
+        <h2>💳 Secure Payment</h2>
+
+        <p class="payment-text">
+
+            Complete your purchase safely
+
+        </p>
+
+        <!-- PAYMENT FORM -->
+
+        <form id="payment-form">
+
+    <!-- PAYMENT METHODS -->
+
+    <div class="payment-methods">
+
+        <label>
+
+            <input
+            type="radio"
+            name="payment-method"
+            value="card"
+            checked>
+
+            💳 Card
+
+        </label>
+
+        <label>
+
+            <input
+            type="radio"
+            name="payment-method"
+            value="upi">
+
+            📱 UPI
+
+        </label>
+
+        <label>
+
+            <input
+            type="radio"
+            name="payment-method"
+            value="netbanking">
+
+            🏦 Net Banking
+
+        </label>
+
+        <label>
+
+            <input
+            type="radio"
+            name="payment-method"
+            value="wallet">
+
+            👛 Wallet
+
+        </label>
+
+    </div>
+
+    <!-- CARD PAYMENT -->
+
+    <div id="card-section">
+
+        <input
+        type="text"
+        id="card-name"
+        placeholder="Card Holder Name"
+        >
+
+        <input
+        type="text"
+        id="card-number"
+        placeholder="Card Number"
+        maxlength="16">
+
+        <div class="payment-row">
+
+            <input
+            type="text"
+            id="expiry"
+            placeholder="MM/YY">
+
+            <input
+            type="password"
+            id="cvv"
+            placeholder="CVV"
+            maxlength="3">
+
+        </div>
+
+    </div>
+
+    <!-- UPI -->
+
+    <div id="upi-section" style="display:none;">
+
+        <input
+        type="text"
+        id="upi-id"
+        placeholder="Enter UPI ID">
+
+    </div>
+
+    <!-- NET BANKING -->
+
+    <div id="netbanking-section"
+    style="display:none;">
+
+        <select id="bank-select">
+
+            <option value="">
+                Select Bank
+            </option>
+
+            <option>
+                SBI
+            </option>
+
+            <option>
+                HDFC
+            </option>
+
+            <option>
+                ICICI
+            </option>
+
+            <option>
+                Axis Bank
+            </option>
+
+        </select>
+
+    </div>
+
+    <!-- WALLET -->
+
+    <div id="wallet-section"
+    style="display:none;">
+
+        <select id="wallet-select">
+
+            <option value="">
+                Select Wallet
+            </option>
+
+            <option>
+                Paytm
+            </option>
+
+            <option>
+                PhonePe
+            </option>
+
+            <option>
+                Amazon Pay
+            </option>
+
+        </select>
+
+    </div>
+
+    <button type="submit">
+
+        Pay Now
+
+    </button>
+
+</form>
+
+    </div>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+    <p>
+
+        &copy; 2026 Game Stack.
+        All rights reserved.
+
+    </p>
+
+</footer>
+
+<script>
+
+// PAYMENT METHODS
+const methods =
+document.querySelectorAll(
+'input[name="payment-method"]'
+);
+
+// SECTIONS
+const cardSection =
+document.getElementById("card-section");
+
+const upiSection =
+document.getElementById("upi-section");
+
+const netbankingSection =
+document.getElementById("netbanking-section");
+
+const walletSection =
+document.getElementById("wallet-section");
+
+// CHANGE METHOD
+methods.forEach(method => {
+
+    method.addEventListener("change", () => {
+
+        // HIDE ALL
+        cardSection.style.display = "none";
+
+        upiSection.style.display = "none";
+
+        netbankingSection.style.display = "none";
+
+        walletSection.style.display = "none";
+
+        // SHOW SELECTED
+        if(method.value === "card"){
+
+            cardSection.style.display = "block";
+        }
+
+        else if(method.value === "upi"){
+
+            upiSection.style.display = "block";
+        }
+
+        else if(method.value === "netbanking"){
+
+            netbankingSection.style.display = "block";
+        }
+
+        else if(method.value === "wallet"){
+
+            walletSection.style.display = "block";
+        }
+
+    });
+
+});
+
+// PAYMENT FORM
+document
+
+.getElementById("payment-form")
+
+.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    alert("🎉 Payment Successful!");
+
+    // CLEAR CART
+    localStorage.removeItem("cart");
+
+    // REDIRECT
+    window.location.href = "success.html";
+
+});
+
+</script>
+
+</body>
+</html>

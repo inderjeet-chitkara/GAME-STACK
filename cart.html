@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Game Stack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        <h1>Game Stack</h1>
+    </div>
+
+   <nav>
+    <ul>
+
+        <li><a href="index.html">Home</a></li>
+
+        <li><a href="store.html">Store</a></li>
+
+        <li><a href="cart.html">Cart</a></li>
+
+        <!-- LOGIN BUTTON -->
+        <li id="login-link">
+            <a href="login.html">Login</a>
+        </li>
+
+        <!-- USERNAME -->
+        <li id="user-info"></li>
+
+        <!-- LOGOUT BUTTON -->
+        <li id="logout-link" style="display:none;">
+            <a href="#" id="logout-btn">Logout</a>
+        </li>
+
+    </ul>
+</nav>
+</header>
+
+<main>
+
+    <section class="featured">
+
+        <h2 class="cart-title">🛒 Your Gaming Cart</h2>
+
+        <div id="cart-items"></div>
+
+        <div class="total-box">
+            <h2 id="total"></h2>
+            <a href="payment.html">
+
+    <button class="checkout-btn">
+
+        Proceed to Pay
+
+    </button>
+
+</a>
+             <p class="cart-note">
+        Secure checkout powered by Game Stack
+    </p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2026 Game Stack. All rights reserved.</p>
+</footer>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let container = document.getElementById("cart-items");
+let totalDisplay = document.getElementById("total");
+
+function renderCart() {
+
+    container.innerHTML = "";
+
+    let total = 0;
+
+    // EMPTY CART
+    if (cart.length === 0) {
+
+        // HIDE TOTAL BOX
+        document.querySelector(".total-box").style.display = "none";
+
+        container.innerHTML = `
+            <div class="empty-cart">
+
+                <img src="images/empty-cart.png"
+                alt="Empty Cart">
+
+                <h2>Your cart is empty</h2>
+
+                <p>Add some awesome games!</p>
+
+            </div>
+        `;
+
+        totalDisplay.innerText = "";
+
+        return;
+    }
+
+    // SHOW TOTAL BOX
+    document.querySelector(".total-box").style.display = "block";
+
+    // LOOP THROUGH CART
+    cart.forEach((item, index) => {
+
+        let priceNumber =
+        parseInt(item.price.replace("₹", ""));
+
+        total += priceNumber;
+
+        let div =
+        document.createElement("div");
+
+        div.classList.add("cart-card");
+
+        div.innerHTML = `
+
+            <img src="${item.image}"
+            alt="${item.title}">
+
+            <div class="cart-info">
+
+                <h3>${item.title}</h3>
+
+                <p>${item.price}</p>
+
+            </div>
+
+            <button onclick="removeItem(${index})">
+
+                Remove
+
+            </button>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+    // SHOW TOTAL
+    totalDisplay.innerText = "Total: ₹" + total;
+}
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    renderCart();
+}
+
+renderCart();
+const user =
+localStorage.getItem("loggedInUser");
+
+// ELEMENTS
+const userInfo =
+document.getElementById("user-info");
+
+const loginLink =
+document.getElementById("login-link");
+
+const logoutLink =
+document.getElementById("logout-link");
+
+// IF USER LOGGED IN
+if(user){
+
+    // SHOW USERNAME
+    userInfo.innerHTML = `
+        👤 ${user}
+    `;
+
+    // HIDE LOGIN
+    loginLink.style.display = "none";
+
+    // SHOW LOGOUT
+    logoutLink.style.display = "block";
+}
+
+// LOGOUT
+document
+.getElementById("logout-btn")
+
+.addEventListener("click", (e) => {
+
+    e.preventDefault();
+
+    // CONFIRM LOGOUT
+    let confirmLogout =
+    confirm("Do you want to logout?");
+
+    // IF USER CLICKS OK
+    if(confirmLogout){
+
+        // REMOVE SESSION
+        localStorage.removeItem("loggedInUser");
+
+        // REDIRECT
+        window.location.href = "login.html";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

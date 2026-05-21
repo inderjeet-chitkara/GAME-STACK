@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Game Stack</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <h1>Game Stack</h1>
+    <nav>
+    <ul>
+
+        <li><a href="index.html">Home</a></li>
+
+        <li><a href="store.html">Store</a></li>
+
+        <li><a href="cart.html">Cart</a></li>
+
+        <!-- LOGIN BUTTON -->
+        <li id="login-link">
+            <a href="login.html">Login</a>
+        </li>
+
+        <!-- USERNAME -->
+        <li id="user-info"></li>
+
+        <!-- LOGOUT BUTTON -->
+        <li id="logout-link" style="display:none;">
+            <a href="#" id="logout-btn">Logout</a>
+        </li>
+
+    </ul>
+</nav>
+    </nav>
+</header>
+
+<!-- Store Section -->
+<section class="featured">
+    <h2>All Games</h2>
+    <input type="text" id="search" placeholder="Search games..." />
+
+    <div class="game-container" id="game-list"></div>
+</section>
+
+<script>
+const games = [
+    { title: "Black Myth: Wukong", price: "₹2999", image: "images/game1.jpg" },
+    { title: "Battle Arena", price: "₹799", image: "images/game2.jpg" },
+    { title: "Elden Ring", price: "₹1999", image: "images/game3.jpg" },
+    { title: "Call Of Duty", price: "₹1299", image: "images/game4.jpg" },
+    { title: "Forza Horizon", price: "₹2499", image: "images/game5.jpg" },
+    {title: "Spider-Man Remastered",price: "₹3299",image: "images/game6.webp"},
+    {title: "God of War Ragnarok",price: "₹3999",image: "images/game7.jpg"},
+    {title: "GTA V",price: "₹1499",image: "images/game8.jpg"},
+    {title: "Resident Evil 4",price: "₹1899",image: "images/game9.jpg"},
+    {title: "Minecraft",price: "₹999",image: "images/game10.jpg"}
+];
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+const gameList = document.getElementById("game-list");
+const searchInput = document.getElementById("search");
+
+// Function to display games
+function displayGames(filteredGames) {
+    gameList.innerHTML = "";
+
+    filteredGames.forEach((game) => {
+        let div = document.createElement("div");
+        div.classList.add("game-card");
+
+        div.innerHTML = `
+            <img src="${game.image}" alt="${game.title}">
+            <h3>${game.title}</h3>
+            <p>${game.price}</p>
+            <button>Add to Cart</button>
+        `;
+
+        div.querySelector("button").addEventListener("click", () => {
+
+    // CHECK IF GAME ALREADY EXISTS
+    const existingGame = cart.find(item =>
+        item.title === game.title
+    );
+
+    // IF GAME EXISTS
+    if(existingGame){
+
+    button.innerText = "Already in Cart";
+
+    button.disabled = true;
+
+    return;
+}
+
+    // ADD GAME
+    cart.push(game);
+
+    // SAVE TO LOCALSTORAGE
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    alert(game.title + " added to cart!");
+});
+
+        gameList.appendChild(div);
+    });
+}
+
+// Initial display
+displayGames(games);
+
+// Search functionality
+searchInput.addEventListener("keyup", () => {
+    const value = searchInput.value.toLowerCase();
+
+    const filtered = games.filter(game =>
+        game.title.toLowerCase().includes(value)
+    );
+
+    displayGames(filtered);
+});
+const user =
+localStorage.getItem("loggedInUser");
+
+// ELEMENTS
+const userInfo =
+document.getElementById("user-info");
+
+const loginLink =
+document.getElementById("login-link");
+
+const logoutLink =
+document.getElementById("logout-link");
+
+// IF USER LOGGED IN
+if(user){
+
+    // SHOW USERNAME
+    userInfo.innerHTML = `
+        👤 ${user}
+    `;
+
+    // HIDE LOGIN
+    loginLink.style.display = "none";
+
+    // SHOW LOGOUT
+    logoutLink.style.display = "block";
+}
+
+// LOGOUT
+document
+.getElementById("logout-btn")
+
+.addEventListener("click", (e) => {
+
+    e.preventDefault();
+
+    // CONFIRM LOGOUT
+    let confirmLogout =
+    confirm("Do you want to logout?");
+
+    // IF USER CLICKS OK
+    if(confirmLogout){
+
+        // REMOVE SESSION
+        localStorage.removeItem("loggedInUser");
+
+        // REDIRECT
+        window.location.href = "login.html";
+    }
+
+});
+</script>
+
+</body>
+</html>
